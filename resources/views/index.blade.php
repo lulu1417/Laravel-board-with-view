@@ -20,7 +20,6 @@
                 <p>Password : <input type=password name="password"></p>
                 <p><input type="submit" name="submit" value="Sign Up">
                     <link rel="stylesheet" href="{{ asset('css/button.css') }}">
-                {{--                @include('layouts.buttonStyle')--}}
             </form>
         </div>
         @if(isset($status) && $status == 'invalid_input')

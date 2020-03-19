@@ -18,3 +18,6 @@ Route::post('user', 'UserController@store');
 Route::get('signin', 'UserController@signin');
 Route::post('login', 'UserController@login');
 
+Route::get('board', 'PostController@index');
+Route::middleware('auth:api')->post('addPost', 'PostController@addPost');
+Route::middleware('auth:api')->get('storePost', 'PostController@store');
