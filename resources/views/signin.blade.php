@@ -25,6 +25,9 @@
         </div>
         @if(isset($status) && $status == 'failed')
             <div class="warning">Wrong username or password！</div>
+            <script>
+                setTimeout(function(){window.location.href='signin';},1000);
+            </script>
         @endif
     </div>
 </div>

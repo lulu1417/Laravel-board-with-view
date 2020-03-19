@@ -34,7 +34,7 @@ class UserController extends Controller
             'api_token' => Str::random(20),
         ]);
 
-        return View::make('board')->with('token', $user->api_token);
+        return View::make('board')->with('user', $user->id);
     }
 
     function login(Request $request)
