@@ -43,6 +43,9 @@ class PostController extends Controller
 
     function addPost()
     {
+        if(!Session::get('user_id')) {
+            return redirect(route('index'));
+        }
         $user = User::find(Session::get('user_id'))->name;
         return View('addPost')->with('user', $user);
     }

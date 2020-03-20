@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('', 'UserController@index');
-Route::post('user', 'UserController@store');
-Route::get('signin', 'UserController@signin');
-Route::post('login', 'UserController@login');
+Route::get('', 'UserController@index')->name('index');
+Route::post('user', 'UserController@store')->name('user');
+Route::get('signin', 'UserController@signin')->name('signin');
+Route::post('login', 'UserController@login')->name('login');
 
 Route::get('board', 'PostController@index')->name('board');
-Route::get('addPost', 'PostController@addPost');
-Route::post('storePost', 'PostController@store');
+Route::get('addPost', 'PostController@addPost')->name('addPost');
+Route::post('storePost', 'PostController@store')->name('storePost');
