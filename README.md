@@ -34,8 +34,7 @@ php artisan serve
 主畫面：顯示所有留言
 使用者可在每則留言下進行回覆或按讚，也可點選
 點選右上角ADD POST可進行留言(必須先註冊或登入)png)
-![](https://i.imgur.com/W6v8NSh.png)
-![](https://i.imgur.com/kY0bahQ.png)
+![](https://i.imgur.com/7hSNAgk.png)
 
 
 編輯留言畫面
@@ -48,7 +47,7 @@ php artisan serve
 
 
 針對留言的回覆再做回覆
-![](https://i.imgur.com/Gfu2IN4.png)
+![](https://i.imgur.com/oplCxJ4.png)
 
 
 送出回覆後，會顯示針對這則回覆的所有回覆
