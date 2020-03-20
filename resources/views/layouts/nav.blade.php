@@ -1,5 +1,5 @@
-<a href='board'>All Posts</a>
+<a href={{route('board')}}>All Posts</a>
 @if(session('user_id'))
-    <a href="addPost">Add post</a>
+    <a href={{route('addPost')}}>Add post</a>
 @endif
-<a href="/">leave</a>
+<a href={{route('index')}}>leave</a>

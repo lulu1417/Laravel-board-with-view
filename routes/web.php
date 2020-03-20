@@ -21,3 +21,6 @@ Route::post('login', 'UserController@login')->name('login');
 Route::get('board', 'PostController@index')->name('board');
 Route::get('addPost', 'PostController@addPost')->name('addPost');
 Route::post('storePost', 'PostController@store')->name('storePost');
+
+Route::get('showComments/{post_id}', 'CommentController@index')->name('showComments');
+Route::post('storeComment', 'CommentController@store')->name('storeComment');
