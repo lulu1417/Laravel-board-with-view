@@ -1,6 +1,8 @@
 # Message Board
 一個具有會員系統、發表留言、回覆留言和按讚功能的留言板
 ## Getting Started
+可在網址列輸入直接進入網頁留言: http://34.80.201.121/
+
 mysql建立資料庫
 ```
 mysql> create database board;
@@ -10,7 +12,10 @@ mysql> create database board;
 ```
 cp .env.example .env
 ```
-
+安裝composer
+```
+composer install
+```
 建置資料表：
 ```
 php artisan migrate

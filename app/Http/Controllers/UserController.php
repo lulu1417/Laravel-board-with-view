@@ -30,11 +30,12 @@ class UserController extends Controller
             return View::make('index')->with('status', $status);
         }
 
-        User::create([
+        $user = User::create([
             'name' => $request['name'],
             'password' => hash('sha256', $request['password']),
             'api_token' => Str::random(20),
         ]);
+        Session::put('user_id', $user->id);
         return redirect(route('board'));
     }
 
