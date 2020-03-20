@@ -6,7 +6,7 @@
         @include('layouts.nav')
     </div>
     <div class="top-left home">
-        <a href={{route('board')}}>back</a>
+        <a href={{env('DOMAIN')}}showComments/{{$post_id}}>back</a>
     </div>
 
 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Reply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -16,12 +17,14 @@ class ReplyController extends Controller
      */
     public function index($comment_id)
     {
-        $replies = Reply::with('user')->where('comment_id', $comment_id)->orderBy('id', 'desc')->get();
+        $replies = Reply::with('user')->with('comment')->where('comment_id', $comment_id)->orderBy('id', 'desc')->get();
         $replies_number = $replies->count();
+        $post_id = Comment::find($comment_id)->post_id;
         return view('showReplies', [
                 'replies' => $replies,
                 'replies_number' => $replies_number,
                 'comment_id' => $comment_id,
+                'post_id' => $post_id,
             ]);
     }
 

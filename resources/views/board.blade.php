@@ -14,6 +14,7 @@
         <br>Content：{{$post->content}}
         <br>Time：{{$post->created_at}}
         <form name="form1" action={{route('storeLike')}} method="post">
+            @csrf
             <input type="hidden" name="post_id" value='{{$post->id}}'>
             <input type="submit" name="submit" value="Like 👍">
         </form>
