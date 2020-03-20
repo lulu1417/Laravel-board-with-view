@@ -6,23 +6,19 @@
         @include('layouts.nav')
     </div>
     <div class="top-left home">
-        BACK
+        <a href={{route('board')}}>back</a>
     </div>
 
 </div>
 <div class="note full-height">
     @foreach ($comments as $comment)
-        Author：{{$comment->user->name}}
+        <br>Author：{{$comment->user->name}}
         <br>Content：{{$comment->content}}
         <br>Time：{{$comment->created_at}}
 
-        <form name="form1" action="showReplies" method="post">
-            @csrf
-            <input type="hidden" name="comment_id" value={{$comment->id}}>
-            <input type="submit" name="submit" value="All Replies">
-        </form>
+        <br><a href={{env('DOMAIN')}}/showReplies/{{$comment->id}}>All Replies</a>
 
-        <form name="form1" action="storeReply" method="post">
+        <form name="form1" action="{{route('storeReply')}}" method="post">
             @csrf
             <input type="hidden" name="comment_id" value={{$comment->id}}>
             <p><textarea style="font-family: \'Nunito\', sans-serif; font-size:20px; width:550px;height:100px;"
@@ -31,6 +27,7 @@
 
         </form>
         <link rel="stylesheet" href="{{ asset('css/button.css') }}">
+        <hr>
     @endforeach
     <div class="bottom left position-abs content">
         There are {{$comments_number}} comments.

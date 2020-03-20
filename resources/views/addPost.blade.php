@@ -6,7 +6,7 @@
         @include('layouts.nav')
     </div>
     <div class="top-left home">
-        Back
+        <a href={{route('board')}}>back</a>
     </div>
     <div class="content">
         <div class="m-b-md">

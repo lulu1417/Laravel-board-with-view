@@ -24,3 +24,9 @@ Route::post('storePost', 'PostController@store')->name('storePost');
 
 Route::get('showComments/{post_id}', 'CommentController@index')->name('showComments');
 Route::post('storeComment', 'CommentController@store')->name('storeComment');
+
+Route::get('showReplies/{comment_id}', 'ReplyController@index')->name('showReplies');
+Route::post('storeReply', 'ReplyController@store')->name('storeReply');
+
+Route::get('showReplies/{post_id}', 'LikeController@index')->name('showLikes');
+Route::post('storeLike', 'LikeController@store')->name('storeLike');

@@ -13,11 +13,11 @@
         <br>Subject：{{$post->subject}}
         <br>Content：{{$post->content}}
         <br>Time：{{$post->created_at}}
-        <form name="form1" action="storeLike" method="post">
+        <form name="form1" action={{route('storeLike')}} method="post">
             <input type="hidden" name="post_id" value='{{$post->id}}'>
             <input type="submit" name="submit" value="Like 👍">
         </form>
-        <a href="showComments/{{$post->id}}">All comments</a>
+        <a href={{env('DOMAIN')}}showComments/{{$post->id}}>All comments</a>
         <form name="form1" action="storeComment" method="post">
             @csrf
             <input type="hidden" name="post_id" value='{{$post->id}}'>
