@@ -24,6 +24,9 @@
         </div>
         @if(isset($status) && $status == 'invalid_input')
             <div class="warning">Incomplete input, or the username has already been used ！</div>
+            <script>
+                setTimeout(function(){window.location.href='/';},1000);
+            </script>
         @endif
     </div>
 </div>

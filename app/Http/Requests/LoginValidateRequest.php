@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PostValidateRequest extends FormRequest
+class LoginValidateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,17 +23,13 @@ class PostValidateRequest extends FormRequest
      */
     public function rules()
     {
-        $rule= [
-            'subject' => ['required', 'max:255'],
-            'content' => ['required', 'max:255'],
+        $rule = [
+            'name' => ['required', 'max:20'],
+            'password' => ['required', 'between:4,12'],
         ];
         if (request()->has('name')) {
-            $rule['name'] = ['required', 'l'];
+            $rule['name'] = ['required'];
         }
-        return [
-            'name' => [
-                'required'
-            ]
-        ];
+        return $rule;
     }
 }

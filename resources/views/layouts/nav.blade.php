@@ -1,5 +1,5 @@
 <a href='board'>All Posts</a>
-@if(isset($user))
+@if(session('user_id'))
     <a href="addPost">Add post</a>
 @endif
 <a href="/">leave</a>

@@ -8,6 +8,7 @@
 
 </div>
 <div class="note full-height">
+    @csrf
     @foreach ($posts as $post)
     <br>Author：{{$post->user->name}}
     <br>Subject：{{$post->subject}}

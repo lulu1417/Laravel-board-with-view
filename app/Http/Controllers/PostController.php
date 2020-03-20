@@ -3,41 +3,47 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use View;
-use Illuminate\Support\Str;
 
 
 class PostController extends Controller
 {
     function index()
     {
-        $posts = Post::with('user')->get();
+        $posts = Post::with('user')->orderBy('id', 'desc')->get();
         $posts_number = $posts->count();
-        return View('board')->with('posts', $posts)->with('posts_number', $posts_number)->with('user', Auth::user());
+        return View('board')->with('posts', $posts)->with('posts_number', $posts_number);
     }
 
     function store(Request $request)
     {
+        $user_id = Session::get('user_id', 'null');
         $rules = [
-            'name' => ['required', 'unique:users'],
-            'password' => ['required', 'between:4,12'],
+            'subject' => ['required', 'max:255'],
+            'content' => ['required', 'max:255'],
         ];
         $validator = validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            $status = 'invalid_input';
-            return View::make('index')->with('status', $status);
+            return view('addPost',['status' => 'invalid_input']);
         }
 
-        $user = Post::create([
-            'user_id' => Auth::user()->id,
+        Post::create([
+            'user_id' => $user_id,
             'subject' => $request['subject'],
             'content' => $request['content'],
         ]);
 
-        return View::make('board')->with('token', $user->api_token);
+        return redirect(route('board'));
+    }
+
+    function addPost()
+    {
+        $user = User::find(Session::get('user_id'))->name;
+        return View('addPost')->with('user', $user);
     }
 }
