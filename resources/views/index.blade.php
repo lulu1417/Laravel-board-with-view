@@ -14,7 +14,7 @@
 
     <div class="content">
         <div class="m-b-md">
-            <form name="signup" action="user" method="post">
+            <form name="signup" action="signup" method="post">
                 @csrf
                 <p>Username : <input type=text name="name"></p>
                 <p>Password : <input type=password name="password"></p>

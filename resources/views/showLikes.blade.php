@@ -23,8 +23,9 @@
                     <input type="submit" name="submit" value= "Retrive like 👎" >
                 </form>
             <link rel="stylesheet" href="{{asset('css/button.css') }}">
-            <hr>
+
         @endif
+        <hr>
         @endforeach
 
 </div>

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('', 'UserController@index')->name('index');
-Route::post('user', 'UserController@store')->name('user');
+Route::post('signup', 'UserController@store')->name('signup');
 Route::get('signin', 'UserController@signin')->name('signin');
 Route::post('login', 'UserController@login')->name('login');
 

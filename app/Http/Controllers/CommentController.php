@@ -16,7 +16,7 @@ class CommentController extends Controller
      */
     public function index($post_id)
     {
-        $comments = Comment::with('user')->where('post_id', $post_id)->orderBy('id', 'desc')->get();
+        $comments = Comment::with('user')->with('replies')->withCount('replies')->where('post_id', $post_id)->orderBy('id', 'desc')->get();
         $comments_number = $comments->count();
         return view('showComments', ['comments' => $comments, 'comments_number' => $comments_number, 'post_id' => $post_id]);
     }

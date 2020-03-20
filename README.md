@@ -33,9 +33,9 @@ php artisan serve
 
 主畫面：顯示所有留言
 使用者可在每則留言下進行回覆或按讚，也可點選
-點選右上角ADD POST可進行留言(必須先註冊或登入)
-![](https://i.imgur.com/SGB3ZbF.png)
-
+點選右上角ADD POST可進行留言(必須先註冊或登入)png)
+![](https://i.imgur.com/W6v8NSh.png)
+![](https://i.imgur.com/kY0bahQ.png)
 
 
 編輯留言畫面
