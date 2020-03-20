@@ -8,8 +8,9 @@
 
 </div>
 <div class="note full-height">
+    <h2><font color=#5599FF>Posts</font></h2>
     @foreach ($posts as $post)
-        <br>Author：{{$post->user->name}}
+        Author：{{$post->user->name}}
         <br>Subject：{{$post->subject}}
         <br>Content：{{$post->content}}
         <br>Time：{{$post->created_at}}
@@ -18,7 +19,17 @@
             <input type="hidden" name="post_id" value='{{$post->id}}'>
             <input type="submit" name="submit" value="Like 👍">
         </form>
-        <a href={{env('DOMAIN')}}showComments/{{$post->id}}>All comments</a>
+        <hr>
+        <div class="sub-content">
+            <h3><font color=#5599FF>Comments</font></h3><br>
+            @foreach($post->comments as $comment)
+                Author：{{$comment->user->name}}
+                <br>Content：{{$comment->content}}
+                <br>Time：{{$comment->created_at}}
+                <hr>
+            @endforeach
+            <br><a href={{env('DOMAIN')}}showComments/{{$post->id}}>All comments</a>
+        </div>
         <form name="form1" action="storeComment" method="post">
             @csrf
             <input type="hidden" name="post_id" value='{{$post->id}}'>
@@ -27,8 +38,8 @@
             <p><input type="submit" name="submit" value="SEND">
         </form>
         <link rel="stylesheet" href="{{ asset('css/button.css') }}">
+        <hr>
     @endforeach
-    <hr>
     <div class="bottom left position-abs content">
         There are {{$posts_number}} posts.
     </div>

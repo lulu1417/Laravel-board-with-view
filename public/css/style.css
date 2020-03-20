@@ -47,6 +47,12 @@
     text-align: center;
 }
 
+ .sub-content{
+     font-size: 28px;
+     text-align: left;
+     padding: 40px;
+ }
+
 
 .title{
     text-align: center;

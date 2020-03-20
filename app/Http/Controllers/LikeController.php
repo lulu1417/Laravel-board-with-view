@@ -16,7 +16,7 @@ class LikeController extends Controller
      */
     public function index($post_id)
     {
-        $likes = Like::with('user')->with('post')->where('post_id', $post_id)->orderBy('id', 'desc')->get();
+        $likes = Like::with('user')->where('post_id', $post_id)->orderBy('id', 'desc')->get();
         $likes_number = $likes->count();
 
         return view('showLikes', [
