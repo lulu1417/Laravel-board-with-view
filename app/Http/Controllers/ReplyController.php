@@ -21,11 +21,11 @@ class ReplyController extends Controller
         $replies_number = $replies->count();
         $post_id = Comment::find($comment_id)->post_id;
         return view('showReplies', [
-                'replies' => $replies,
-                'replies_number' => $replies_number,
-                'comment_id' => $comment_id,
-                'post_id' => $post_id,
-            ]);
+            'replies' => $replies,
+            'replies_number' => $replies_number,
+            'comment_id' => $comment_id,
+            'post_id' => $post_id,
+        ]);
     }
 
 
@@ -37,19 +37,21 @@ class ReplyController extends Controller
      */
     public function store(Request $request)
     {
-        $user_id = Session::get('user_id', 'null');
+        $user_id = Session::get('user_id');
         $request->validate([
             'comment_id' => ['required', 'exists:comments,id'],
             'content' => ['required', 'max:255'],
         ]);
-
-        Reply::create([
-            'user_id' => $user_id,
-            'comment_id' => $request['comment_id'],
-            'content' => $request['content'],
-        ]);
-
-        return redirect(env('DOMAIN').'showReplies/' . $request->comment_id);
+        if ($user_id != null) {
+            Reply::create([
+                'user_id' => $user_id,
+                'comment_id' => $request['comment_id'],
+                'content' => $request['content'],
+            ]);
+        } else {
+            return redirect(env('DOMAIN') . 'showComments/' . Comment::find($request->comment_id)->post_id);
+        }
+        return redirect(env('DOMAIN') . 'showReplies/' . $request->comment_id);
     }
 
     /**

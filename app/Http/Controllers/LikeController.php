@@ -18,11 +18,16 @@ class LikeController extends Controller
     {
         $likes = Like::with('user')->where('post_id', $post_id)->orderBy('id', 'desc')->get();
         $likes_number = $likes->count();
-
+        $user_id = Session::get('user_id');
+        if($user_id != null){
+            $name = User::find(Session::get('user_id'))->name;
+        }else{
+            $name = null;
+        }
         return view('showLikes', [
             'likes' => $likes,
             'likes_number' => $likes_number,
-            'user_name' => User::find(Session::get('user_id'))->name,
+            'user_name' => $name,
         ]);
     }
 
@@ -40,7 +45,7 @@ class LikeController extends Controller
             'post_id' => ['required', 'exists:posts,id'],
         ]);
 
-        if (Like::where('user_id', $user_id)->where('post_id', $request->post_id)->count() == 0) {
+        if (Like::where('user_id', $user_id)->where('post_id', $request->post_id)->count() == 0 && $user_id != 'null') {
             Like::create([
                 'user_id' => $user_id,
                 'post_id' => $request['post_id'],

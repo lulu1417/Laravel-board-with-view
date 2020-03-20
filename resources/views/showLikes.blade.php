@@ -27,6 +27,9 @@
         @endif
         <hr>
         @endforeach
+        <div class="bottom left position-abs content">
+            There are {{$likes_number}} likes.
+        </div>
 
 </div>
 </body>
