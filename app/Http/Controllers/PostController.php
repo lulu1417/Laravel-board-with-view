@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
@@ -14,36 +15,54 @@ class PostController extends Controller
 {
     function index()
     {
-        $posts = Post::with('user')->orderBy('id', 'desc')->get();
-        $posts_number = $posts->count();
-        return View('board')->with('posts', $posts)->with('posts_number', $posts_number);
+        $posts = Post::with(['user','comments','likes'])->orderBy('id', 'desc')->get();
+        $posts->posts_number = $posts->count();
+
+        foreach ($posts as $post){
+            $post->comments = $post->comments->toArray();
+            $post->comments = array_map(function ($comment)  {
+                $comment['replies'] = Comment::with('replies')->find($comment['post_id']);
+                return $comment['replies'];
+            }, $post->comments);
+        }
+
+        return response()->json($posts);
+//        return View('board')->with('posts', $posts)->with('posts_number', $posts_number);
     }
 
     function store(Request $request)
     {
-        $user_id = Session::get('user_id', 'null');
-        $rules = [
-            'subject' => ['required', 'max:255'],
-            'content' => ['required', 'max:255'],
-        ];
-        $validator = validator::make($request->all(), $rules);
+        date_default_timezone_set('Asia/Taipei');
 
-        if ($validator->fails()) {
-            return view('addPost',['status' => 'invalid_input']);
-        }
+//        $user_id = Session::get('user_id', 'null');
+//        $rules = [
+//            'subject' => ['required', 'max:255'],
+//            'content' => ['required', 'max:255'],
+//        ];
+//        $validator = validator::make($request->all(), $rules);
+//
+//        if ($validator->fails()) {
+//            return view('addPost',['status' => 'invalid_input']);
+//        }
+//
+        $request->validate([
+            'user_id' => ['required', 'exists:users,id'],
+            'content' => ['required', 'max:225'],
+        ]);
 
-        Post::create([
-            'user_id' => $user_id,
-            'subject' => $request['subject'],
+        $create = Post::create([
+            'user_id' => $request['user_id'],
             'content' => $request['content'],
         ]);
 
-        return redirect(route('board'));
+        return response()->json($create, 200);
+
+//        return redirect(route('board'));
     }
 
     function create()
     {
-        if(!Session::get('user_id')) {
+        if (!Session::get('user_id')) {
             return redirect(route('index'));
         }
         $user = User::find(Session::get('user_id'))->name;

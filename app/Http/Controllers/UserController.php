@@ -19,7 +19,7 @@ class UserController extends Controller
 
     function store(Request $request)
     {
-
+        date_default_timezone_set('Asia/Taipei');
         $request->validate([
             'name' => ['required', 'unique:users'],
             'password' => ['required', 'between:4,20'],
@@ -51,6 +51,7 @@ class UserController extends Controller
 
     function login(Request $request)
     {
+        date_default_timezone_set('Asia/Taipei');
         $request->validate([
                 'name' => ['required',],
                 'password' => ['required'],

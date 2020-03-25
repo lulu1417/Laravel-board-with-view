@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $fillable = [
-        'subject', 'content', 'user_id',
+        'content', 'user_id',
+    ];
+
+    protected $hidden = [
+        'updated_at'
     ];
 
     function user(){
