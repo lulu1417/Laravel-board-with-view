@@ -10,6 +10,10 @@ class Comment extends Model
       'post_id', 'user_id', 'content'
     ];
 
+    protected $hidden = [
+        'updated_at'
+    ];
+
     function user(){
         return $this->belongsTo(User::class);
     }

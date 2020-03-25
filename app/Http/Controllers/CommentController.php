@@ -29,22 +29,33 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $user_id = Session::get('user_id');
+        date_default_timezone_set('Asia/Taipei');
+
         $request->validate([
+            'user_id' => ['required', 'exists:users,id'],
             'post_id' => ['required', 'exists:posts,id'],
             'content' => ['required', 'max:255'],
         ]);
-        if ($user_id != null) {
-            Comment::create([
-                'user_id' => $user_id,
-                'post_id' => $request['post_id'],
-                'content' => $request['content'],
-            ]);
-            return redirect(env('DOMAIN') . 'showComments/' . $request->post_id);
 
-        } else {
-            return redirect(route('board'));
-        }
+        $create = Comment::create([
+            'user_id' => $request['user_id'],
+            'post_id' => $request['post_id'],
+            'content' => $request['content'],
+        ]);
+
+        return response()->json($create, 200);
+        //        $user_id = Session::get('user_id');
+//        if ($user_id != null) {
+//            Comment::create([
+//                'user_id' => $user_id,
+//                'post_id' => $request['post_id'],
+//                'content' => $request['content'],
+//            ]);
+//            return redirect(env('DOMAIN') . 'showComments/' . $request->post_id);
+//
+//        } else {
+//            return redirect(route('board'));
+//        }
 
     }
 

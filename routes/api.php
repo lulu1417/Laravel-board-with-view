@@ -20,3 +20,4 @@ Route::post('login', 'UserController@login')->name('login');
 Route::get('board', 'PostController@index')->name('board');
 Route::middleware('auth:api')->post('storePost', 'PostController@store')->name('storePost');
 
+Route::post('storeComment', 'CommentController@store')->name('storeComment');
