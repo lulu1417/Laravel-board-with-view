@@ -31,7 +31,9 @@ class UserController extends Controller
             'api_token' => Str::random(20),
         ]);
 
-        return response()->json($user, 400);
+        return response()->json($user, 200);
+
+
 //        $rules = [
 //            'name' => ['required','unique:users'],
 //            'password' => ['required', 'between:4,12'],
@@ -55,13 +57,13 @@ class UserController extends Controller
             return response()->json('name not found', 400);
 //            return View::make('signin')->with('status', $status);
         }elseif($user->password !== hash('sha256', $request['password'])){
+            return response()->json('wrong password', 400);
 //            $status = 'failed';
 //            return View::make('signin')->with('status', $status);
-            return response()->json('wrong password', 400);
         }
+        return response()->json($user, 200);
 //        Session::put('user_id', $user->id);
 //        return redirect(route('board'));
-        return response()->json($user);
 
     }
     function signin(){
