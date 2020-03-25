@@ -19,13 +19,16 @@ class PostController extends Controller
         $posts = Post::with(['user','comments','likes'])->orderBy('id', 'desc')->get();
         $posts->posts_number = $posts->count();
 
-        foreach ($posts as $post){
-            $post->comments = $post->comments->toArray();
-            $post->comments = array_map(function ($comment)  {
-                $comment['replies'] = Comment::with('replies')->find($comment['post_id']);
-                return $comment['replies'];
-            }, $post->comments);
-        }
+        $posts = Post::with(['user', 'comments' => function ($query)  { $query->with('user','replies')->orderBy('created_at','desc'); },'likes'])->first();
+        $posts->posts_number = $posts->count();
+//
+//        foreach ($posts as $post){
+//            $post->comments = $post->comments->toArray();
+//            $post->comments = array_map(function ($comment)  {
+//                $comment['replies'] = Comment::with('replies')->find($comment['post_id']);
+//                return $comment['replies'];
+//            }, $post->comments);
+//        }
 
         return response()->json($posts);
 //        return View('board')->with('posts', $posts)->with('posts_number', $posts_number);
