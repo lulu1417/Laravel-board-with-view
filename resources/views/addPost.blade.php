@@ -22,6 +22,7 @@
                     <link rel="stylesheet" href="{{ asset('css/button.css') }}">
             </form>
         </div>
-
+    </div>
+</div>
 </body>
 </html>

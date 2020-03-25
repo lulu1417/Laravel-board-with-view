@@ -41,7 +41,7 @@ class PostController extends Controller
         return redirect(route('board'));
     }
 
-    function addPost()
+    function create()
     {
         if(!Session::get('user_id')) {
             return redirect(route('index'));

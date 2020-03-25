@@ -3,6 +3,10 @@
 ## Getting Started
 可在網址列輸入直接進入網頁留言: http://34.80.201.121/
 
+clone下專案：
+```
+git clone https://github.com/lulu1417/MessageBoard4.0.git
+```
 mysql建立資料庫
 ```
 mysql> create database board;
