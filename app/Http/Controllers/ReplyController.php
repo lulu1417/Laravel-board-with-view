@@ -37,21 +37,38 @@ class ReplyController extends Controller
      */
     public function store(Request $request)
     {
-        $user_id = Session::get('user_id');
+
+        date_default_timezone_set('Asia/Taipei');
+
         $request->validate([
+            'user_id' => ['required', 'exists:users,id'],
             'comment_id' => ['required', 'exists:comments,id'],
             'content' => ['required', 'max:255'],
         ]);
-        if ($user_id != null) {
-            Reply::create([
-                'user_id' => $user_id,
-                'comment_id' => $request['comment_id'],
-                'content' => $request['content'],
-            ]);
-        } else {
-            return redirect(env('DOMAIN') . 'showComments/' . Comment::find($request->comment_id)->post_id);
-        }
-        return redirect(env('DOMAIN') . 'showReplies/' . $request->comment_id);
+
+        $create = Reply::create([
+            'user_id' => $request['user_id'],
+            'comment_id' => $request['comment_id'],
+            'content' => $request['content'],
+        ]);
+
+        return response()->json($create, 200);
+
+//        $user_id = Session::get('user_id');
+//        $request->validate([
+//            'comment_id' => ['required', 'exists:comments,id'],
+//            'content' => ['required', 'max:255'],
+//        ]);
+//        if ($user_id != null) {
+//            Reply::create([
+//                'user_id' => $user_id,
+//                'comment_id' => $request['comment_id'],
+//                'content' => $request['content'],
+//            ]);
+//        } else {
+//            return redirect(env('DOMAIN') . 'showComments/' . Comment::find($request->comment_id)->post_id);
+//        }
+//        return redirect(env('DOMAIN') . 'showReplies/' . $request->comment_id);
     }
 
     /**
