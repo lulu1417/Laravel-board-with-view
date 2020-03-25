@@ -17,7 +17,10 @@ class PostController extends Controller
     function index()
     {
         $posts = Post::with(['user',
-            'comments' => function ($query)  { $query->with('user','replies')->orderBy('created_at','desc'); },'likes'])->get();
+            'comments' => function ($query)  { $query->with('user','replies')->orderBy('created_at','desc'); },'likes'])
+            ->withCount('likes')
+            ->withCount('comments')
+            ->get();
         $posts->posts_number = $posts->count();
 //
 //        foreach ($posts as $post){
