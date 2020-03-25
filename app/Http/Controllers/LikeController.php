@@ -47,8 +47,8 @@ class LikeController extends Controller
             'post_id' => ['required', 'exists:posts,id'],
         ]);
 
-        if(Like::where('user_id', $request['user_id'])->where('post_id', $request['post_id'])->get()->count() > 0){
-            return redirect(route('dislike'));
+        if(Like::where('user_id', Auth::user()->id)->where('post_id', $request['post_id'])->get()->count() > 0){
+            return response()->json('already_liked');
 //            $like = Like::all();
 //            return response()->json($like, 200);
         }
