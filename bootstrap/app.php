@@ -10,7 +10,7 @@
 | the IoC container for the system binding all of the various parts.
 |
 */
-header("Access-Control-Allow-Origin: *");
+//header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: *");
 header("Access-Control-Allow-Headers: Origin, Methods, Accept, Content-Type, Authorization");
 $app = new Illuminate\Foundation\Application(

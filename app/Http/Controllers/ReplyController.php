@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Reply;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -50,6 +51,7 @@ class ReplyController extends Controller
             'user_id' => Auth::user()->id,
             'comment_id' => $request['comment_id'],
             'content' => $request['content'],
+            'created_at' => Carbon::now(),
         ]);
 
         return response()->json($create, 200);

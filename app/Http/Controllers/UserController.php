@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginValidateRequest;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -20,6 +21,7 @@ class UserController extends Controller
 
     function store(Request $request)
     {
+
         Log::info('request body：'.$request->body);
         Log::info('signup->'.'name：'.$request->name.' password：'.$request->password);
         date_default_timezone_set('Asia/Taipei');
@@ -32,9 +34,9 @@ class UserController extends Controller
             'name' => $request['name'],
             'password' => hash('sha256', $request['password']),
             'api_token' => Str::random(20),
-        ]);
 
-        return response()->json($user, 200);
+        ]);
+        return response()->json($user->created_at, 200);
 
 
 //        $rules = [

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Comment;
 use App\Post;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -22,14 +23,6 @@ class PostController extends Controller
             ->withCount('comments')
             ->get();
         $posts->posts_number = $posts->count();
-//
-//        foreach ($posts as $post){
-//            $post->comments = $post->comments->toArray();
-//            $post->comments = array_map(function ($comment)  {
-//                $comment['replies'] = Comment::with('replies')->find($comment['post_id']);
-//                return $comment['replies'];
-//            }, $post->comments);
-//        }
 
         return response()->json($posts);
 //        return View('board')->with('posts', $posts)->with('posts_number', $posts_number);

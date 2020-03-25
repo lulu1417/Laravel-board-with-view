@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Like;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -55,6 +56,7 @@ class LikeController extends Controller
         $create = Like::create([
             'user_id' => Auth::user()->id,
             'post_id' => $request['post_id'],
+            'created_at' => Carbon::now(),
         ]);
 
         return response()->json($create, 200);
