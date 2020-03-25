@@ -20,6 +20,7 @@ class UserController extends Controller
 
     function store(Request $request)
     {
+        Log::info('request body：'.$request->body);
         Log::info('signup->'.'name：'.$request->name.' password：'.$request->password);
         date_default_timezone_set('Asia/Taipei');
         $request->validate([
@@ -53,6 +54,7 @@ class UserController extends Controller
 
     function login(Request $request)
     {
+        Log::info('request ：'.$request);
         Log::info('login-> name：'.$request['name'].' password：'.$request['password']);
         date_default_timezone_set('Asia/Taipei');
         $request->validate([
