@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginValidateRequest;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use View;
@@ -19,6 +20,7 @@ class UserController extends Controller
 
     function store(Request $request)
     {
+        Log::info($request);
         date_default_timezone_set('Asia/Taipei');
         $request->validate([
             'name' => ['required', 'unique:users'],
@@ -51,6 +53,7 @@ class UserController extends Controller
 
     function login(Request $request)
     {
+        Log::info($request);
         date_default_timezone_set('Asia/Taipei');
         $request->validate([
                 'name' => ['required',],
