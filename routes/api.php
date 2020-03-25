@@ -23,3 +23,6 @@ Route::middleware('auth:api')->post('storePost', 'PostController@store')->name('
 Route::middleware('auth:api')->post('storeComment', 'CommentController@store')->name('storeComment');
 
 Route::middleware('auth:api')->post('storeReply', 'ReplyController@store')->name('storeReply');
+
+Route::middleware('auth:api')->post('storeLike', 'LikeController@store')->name('storeLike');
+Route::middleware('auth:api')->post('dislike', 'LikeController@destroy')->name('dislike');

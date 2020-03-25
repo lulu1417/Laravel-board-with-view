@@ -9,7 +9,9 @@ class Like extends Model
     protected $fillable = [
         'post_id', 'user_id'
     ];
-
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
     function user()
     {
         return $this->belongsTo(User::class);

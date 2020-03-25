@@ -40,18 +40,32 @@ class LikeController extends Controller
      */
     public function store(Request $request)
     {
-        $user_id = Session::get('user_id', 'null');
+        date_default_timezone_set('Asia/Taipei');
+
         $request->validate([
+            'user_id' => ['required', 'exists:users,id'],
             'post_id' => ['required', 'exists:posts,id'],
         ]);
 
-        if (Like::where('user_id', $user_id)->where('post_id', $request->post_id)->count() == 0 && $user_id != 'null') {
-            Like::create([
-                'user_id' => $user_id,
-                'post_id' => $request['post_id'],
-            ]);
-        }
-        return redirect(env('DOMAIN') . 'showLikes/' . $request->post_id);
+        $create = Like::create([
+            'user_id' => $request['user_id'],
+            'post_id' => $request['post_id'],
+        ]);
+
+        return response()->json($create, 200);
+
+//        $user_id = Session::get('user_id', 'null');
+//        $request->validate([
+//            'post_id' => ['required', 'exists:posts,id'],
+//        ]);
+//
+//        if (Like::where('user_id', $user_id)->where('post_id', $request->post_id)->count() == 0 && $user_id != 'null') {
+//            Like::create([
+//                'user_id' => $user_id,
+//                'post_id' => $request['post_id'],
+//            ]);
+//        }
+//        return redirect(env('DOMAIN') . 'showLikes/' . $request->post_id);
     }
 
     /**
@@ -96,7 +110,14 @@ class LikeController extends Controller
      */
     public function destroy(Request $request)
     {
-        Like::find($request->like_id)->delete();
-        return redirect(env('DOMAIN') . 'showLikes/' . $request->post_id);
+        $request->validate([
+           'like_id' => ['required', 'exists:likes,id']
+        ]);
+            $like = Like::find($request->like_id);
+            $delete = $like->delete();
+            return response()->json($delete, 200);
+
+//        Like::find($request->like_id)->delete();
+//        return redirect(env('DOMAIN') . 'showLikes/' . $request->post_id);
     }
 }
