@@ -26,3 +26,8 @@ Route::middleware('auth:api')->post('storeReply', 'ReplyController@store')->name
 
 Route::middleware('auth:api')->post('storeLike', 'LikeController@store')->name('storeLike');
 Route::middleware('auth:api')->post('dislike', 'LikeController@destroy')->name('dislike');
+
+Route::get('allPost', 'PostController@allPost')->name('allPost');
+Route::get('allComment', 'CommentController@allComment')->name('allComment');
+Route::get('allLike', 'LikeController@allLike')->name('allLike');
+Route::get('allReply', 'ReplyController@allReply')->name('allReply');

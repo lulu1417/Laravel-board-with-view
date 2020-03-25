@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Like;
 use App\User;
 use Carbon\Carbon;
@@ -126,5 +127,8 @@ class LikeController extends Controller
 
 //        Like::find($request->like_id)->delete();
 //        return redirect(env('DOMAIN') . 'showLikes/' . $request->post_id);
+    }
+    function allLike(){
+        return response()->json(Like::all());
     }
 }

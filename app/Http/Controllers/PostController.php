@@ -95,4 +95,8 @@ class PostController extends Controller
 //        }
 //
     }
+
+    function allPost(){
+        return response()->json(Post::with('likes')->withCount(['likes', 'comments'])->get());
+    }
 }

@@ -104,4 +104,8 @@ class CommentController extends Controller
     {
         //
     }
+
+    function allComment(){
+        return response()->json(Comment::all());
+    }
 }

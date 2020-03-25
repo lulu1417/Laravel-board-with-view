@@ -117,4 +117,8 @@ class ReplyController extends Controller
     {
         //
     }
+
+    function allReply(){
+        return response()->json(Reply::all());
+    }
 }
