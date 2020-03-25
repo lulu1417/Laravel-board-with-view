@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Like;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class LikeController extends Controller
@@ -43,13 +44,16 @@ class LikeController extends Controller
         date_default_timezone_set('Asia/Taipei');
 
         $request->validate([
-            'user_id' => ['required', 'exists:users,id'],
             'post_id' => ['required', 'exists:posts,id'],
         ]);
 
-        if(Like::where('user_id', $request['user_id'])->where('post_id'))
+        if(Like::where('user_id', $request['user_id'])->where('post_id', $request['post_id'])->get()->count() > 0){
+            return redirect(route('dislike'));
+//            $like = Like::all();
+//            return response()->json($like, 200);
+        }
         $create = Like::create([
-            'user_id' => $request['user_id'],
+            'user_id' => Auth::user()->id,
             'post_id' => $request['post_id'],
         ]);
 

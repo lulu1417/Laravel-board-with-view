@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -32,13 +33,12 @@ class CommentController extends Controller
         date_default_timezone_set('Asia/Taipei');
 
         $request->validate([
-            'user_id' => ['required', 'exists:users,id'],
             'post_id' => ['required', 'exists:posts,id'],
             'content' => ['required', 'max:255'],
         ]);
 
         $create = Comment::create([
-            'user_id' => $request['user_id'],
+            'user_id' => Auth::user()->id,
             'post_id' => $request['post_id'],
             'content' => $request['content'],
         ]);

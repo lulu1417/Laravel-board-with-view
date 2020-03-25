@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Comment;
 use App\Reply;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -41,13 +42,12 @@ class ReplyController extends Controller
         date_default_timezone_set('Asia/Taipei');
 
         $request->validate([
-            'user_id' => ['required', 'exists:users,id'],
             'comment_id' => ['required', 'exists:comments,id'],
             'content' => ['required', 'max:255'],
         ]);
 
         $create = Reply::create([
-            'user_id' => $request['user_id'],
+            'user_id' => Auth::user()->id,
             'comment_id' => $request['comment_id'],
             'content' => $request['content'],
         ]);

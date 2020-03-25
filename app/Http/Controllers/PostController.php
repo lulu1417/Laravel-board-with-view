@@ -6,6 +6,7 @@ use App\Comment;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use View;
@@ -46,12 +47,10 @@ class PostController extends Controller
 //        }
 //
         $request->validate([
-            'user_id' => ['required', 'exists:users,id'],
             'content' => ['required', 'max:225'],
         ]);
-
         $create = Post::create([
-            'user_id' => $request['user_id'],
+            'user_id' => Auth::user()->id,
             'content' => $request['content'],
         ]);
 
