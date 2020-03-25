@@ -21,7 +21,7 @@ class UserController extends Controller
     {
 
         $request->validate([
-            'name' => ['required','unique:users'],
+            'name' => ['required', 'unique:users'],
             'password' => ['required', 'between:4,20'],
         ]);
 
@@ -51,12 +51,17 @@ class UserController extends Controller
 
     function login(Request $request)
     {
+        $request->validate([
+                'name' => ['required',],
+                'password' => ['required'],
+            ]
+        );
         $user = User::where('name', $request->name)->first();
-        if(!$user){
+        if (!$user) {
 //            $status = 'failed';
             return response()->json('name not found', 400);
 //            return View::make('signin')->with('status', $status);
-        }elseif($user->password !== hash('sha256', $request['password'])){
+        } elseif ($user->password !== hash('sha256', $request['password'])) {
             return response()->json('wrong password', 400);
 //            $status = 'failed';
 //            return View::make('signin')->with('status', $status);
@@ -66,7 +71,9 @@ class UserController extends Controller
 //        return redirect(route('board'));
 
     }
-    function signin(){
+
+    function signin()
+    {
         return view('signin');
     }
 
