@@ -25,10 +25,19 @@ class UserController extends Controller
         Log::info('request body：'.$request->body);
         Log::info('signup->'.'name：'.$request->name.' password：'.$request->password);
         date_default_timezone_set('Asia/Taipei');
-        $request->validate([
-            'name' => ['required', 'unique:users'],
+
+
+        $rules = [
+            'name' => ['required','unique:users'],
             'password' => ['required', 'between:4,20'],
-        ]);
+        ];
+        $validator = validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            $status = 'invalid_input';
+            return response()->json($status, 400);
+        }
+
 
         $user = User::create([
             'name' => $request['name'],
@@ -36,19 +45,20 @@ class UserController extends Controller
             'api_token' => Str::random(20),
 
         ]);
+        Log::info(response()->json($user, 200));
         return response()->json($user, 200);
 
 
-//        $rules = [
-//            'name' => ['required','unique:users'],
-//            'password' => ['required', 'between:4,12'],
-//        ];
-//        $validator = validator::make($request->all(), $rules);
-//
-//        if ($validator->fails()) {
-//            $status = 'invalid_input';
-//            return View::make('index')->with('status', $status);
-//        }
+        $rules = [
+            'name' => ['required','unique:users'],
+            'password' => ['required', 'between:4,12'],
+        ];
+        $validator = validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            $status = 'invalid_input';
+            return View::make('index')->with('status', $status);
+        }
 
 //        Session::put('user_id', $user->id);
 //        return redirect(route('board'));

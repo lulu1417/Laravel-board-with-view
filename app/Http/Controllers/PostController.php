@@ -6,6 +6,7 @@ use App\Comment;
 use App\Post;
 use App\User;
 use Carbon\Carbon;
+use http\Exception\InvalidArgumentException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -18,10 +19,18 @@ class PostController extends Controller
     function index()
     {
         $posts = Post::with(['user',
-            'comments' => function ($query)  { $query->with('user','replies')->orderBy('created_at','desc'); },'likes'])
+            'comments' => function ($query) {
+                $query->with('user', 'replies')->orderBy('created_at', 'desc');
+            }, 'likes'])
             ->withCount('likes')
             ->withCount('comments')
             ->get();
+
+        foreach ($posts as $post){
+            $last = $this->transfer($post->created_at);
+            dd($last);
+        }
+
         $posts->posts_number = $posts->count();
 
         return response()->json($posts);
@@ -63,5 +72,27 @@ class PostController extends Controller
         }
         $user = User::find(Session::get('user_id'))->name;
         return View('addPost')->with('user', $user);
+    }
+
+    static function transfer($time)
+    {
+        if(strpos($time, date("Y-m-d") == 0)){
+            $now = date("Y-m-d H:i:s");
+//            var_dump(strtotime($now));
+            $startdate="2011-3-15 11:50:00";
+            strtotime($enddate);
+            var_dump(strtotime("2015-11-18 23:00:00"));
+            die();
+            $last = strtotime($now) - strtotime($time);
+             $last['second'] = (strtotime($now) - strtotime($time)); //計算相差之秒數
+            $last['min'] =  (strtotime($now) - strtotime($time))/ (60); //計算相差之分鐘數
+            $last['hour'] =  (strtotime($now) - strtotime($time))/ (60*60); //計算相差之小時數
+
+            return $last;
+
+        }else{
+            return $time;
+        }
+
     }
 }
