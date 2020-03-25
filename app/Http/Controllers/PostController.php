@@ -27,8 +27,8 @@ class PostController extends Controller
             ->get();
 
         foreach ($posts as $post){
-            $last = $this->transfer($post->created_at);
-            dd($last);
+//            $last = $this->transfer($post->created_at);
+//            dd($last);
         }
 
         $posts->posts_number = $posts->count();
@@ -80,8 +80,7 @@ class PostController extends Controller
             $now = date("Y-m-d H:i:s");
 //            var_dump(strtotime($now));
             $startdate="2011-3-15 11:50:00";
-            strtotime($enddate);
-            var_dump(strtotime("2015-11-18 23:00:00"));
+//            var_dump(strtotime("2015-11-18 23:00:00"));
             die();
             $last = strtotime($now) - strtotime($time);
              $last['second'] = (strtotime($now) - strtotime($time)); //計算相差之秒數
