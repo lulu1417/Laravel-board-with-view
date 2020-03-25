@@ -47,6 +47,7 @@ class LikeController extends Controller
             'post_id' => ['required', 'exists:posts,id'],
         ]);
 
+        if(Like::where('user_id', $request['user_id'])->where('post_id'))
         $create = Like::create([
             'user_id' => $request['user_id'],
             'post_id' => $request['post_id'],
