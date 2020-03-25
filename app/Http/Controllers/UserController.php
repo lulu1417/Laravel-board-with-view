@@ -19,38 +19,53 @@ class UserController extends Controller
 
     function store(Request $request)
     {
-        $rules = [
+        $request->validate([
             'name' => ['required','unique:users'],
-            'password' => ['required', 'between:4,12'],
-        ];
-        $validator = validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            $status = 'invalid_input';
-            return View::make('index')->with('status', $status);
-        }
+            'password' => ['required', 'between:4,20'],
+        ]);
 
         $user = User::create([
             'name' => $request['name'],
             'password' => hash('sha256', $request['password']),
             'api_token' => Str::random(20),
         ]);
-        Session::put('user_id', $user->id);
-        return redirect(route('board'));
+        return response()->json($user, 200);
+
+//        $rules = [
+//            'name' => ['required','unique:users'],
+//            'password' => ['required', 'between:4,12'],
+//        ];
+//        $validator = validator::make($request->all(), $rules);
+//
+//        if ($validator->fails()) {
+//            $status = 'invalid_input';
+//            return View::make('index')->with('status', $status);
+//        }
+//
+//        $user = User::create([
+//            'name' => $request['name'],
+//            'password' => hash('sha256', $request['password']),
+//            'api_token' => Str::random(20),
+//        ]);
+//        Session::put('user_id', $user->id);
+//        return redirect(route('board'));
     }
 
     function login(Request $request)
     {
         $user = User::where('name', $request->name)->first();
         if(!$user){
-            $status = 'failed';
-            return View::make('signin')->with('status', $status);
+            return response()->json('user not found', 400);
+//            $status = 'failed';
+//            return View::make('signin')->with('status', $status);
         }elseif($user->password !== hash('sha256', $request['password'])){
-            $status = 'failed';
-            return View::make('signin')->with('status', $status);
+            return response()->json('wrong password', 400);
+//            $status = 'failed';
+//            return View::make('signin')->with('status', $status);
         }
-        Session::put('user_id', $user->id);
-        return redirect(route('board'));
+        return response()->json($user, 200);
+//        Session::put('user_id', $user->id);
+//        return redirect(route('board'));
 
     }
     function signin(){
