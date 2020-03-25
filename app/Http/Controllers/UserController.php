@@ -36,7 +36,7 @@ class UserController extends Controller
             'api_token' => Str::random(20),
 
         ]);
-        return response()->json($user->created_at, 200);
+        return response()->json($user, 200);
 
 
 //        $rules = [

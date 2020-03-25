@@ -2,6 +2,7 @@
 
 namespace App;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
@@ -19,5 +20,9 @@ class Reply extends Model
     function comment()
     {
         return $this->belongsTo(Comment::class);
+    }
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 }
