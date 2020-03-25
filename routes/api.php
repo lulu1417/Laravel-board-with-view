@@ -31,3 +31,5 @@ Route::get('allPost', 'PostController@allPost')->name('allPost');
 Route::get('allComment', 'CommentController@allComment')->name('allComment');
 Route::get('allLike', 'LikeController@allLike')->name('allLike');
 Route::get('allReply', 'ReplyController@allReply')->name('allReply');
+
+Route::post('time', 'PostController@transfer');

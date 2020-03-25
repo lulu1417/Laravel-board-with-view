@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use View;
+use App\CalculateTime;
 
 
 class PostController extends Controller
@@ -27,12 +28,9 @@ class PostController extends Controller
             ->get();
 
         foreach ($posts as $post){
-            ;
-//            $last = $this->transfer($post->created_at);
-//            dd($last);
+            $last = CalculateTime::transfer($post->created_at->toDateTimeString());
+            $posts['last'] = $last;
         }
-
-        $posts->posts_number = $posts->count();
 
         return response()->json($posts);
 //        return View('board')->with('posts', $posts)->with('posts_number', $posts_number);
@@ -77,26 +75,23 @@ class PostController extends Controller
 
     static function transfer($time)
     {
-//        if(strpos($time, date("Y-m-d") == 0)){
-//            $now = date("Y-m-d H:i:s");
-////            var_dump(strtotime($now));
-//            $startdate="2011-3-15 11:50:00";
-////            var_dump(strtotime("2015-11-18 23:00:00"));
-//            die();
-//            $last = strtotime($now) - strtotime($time);
-//             $last['second'] = (strtotime($now) - strtotime($time)); //計算相差之秒數
-//            $last['min'] =  (strtotime($now) - strtotime($time))/ (60); //計算相差之分鐘數
-//            $last['hour'] =  (strtotime($now) - strtotime($time))/ (60*60); //計算相差之小時數
-//
-//            return $last;
-//
-//        }else{
-//            return $time;
-//        }
-//
+        if (strpos($time, date("Y-m-d")) == 0) {
+            $now = date("Y-m-d H:i:s");
+
+            $result['hour'] = floor((strtotime($now) - strtotime($time)) / 3600);
+            $result['min'] = floor((strtotime($now) - ($result['hour'] * 3600) - strtotime($time)) / 60);
+            $result['second'] = floor((strtotime($now) - ($result['hour'] * 3600) - ($result['min'] * 60) - strtotime($time)) % 60);
+
+            return $result;
+
+        } else {
+            return 'more than 24';
+        }
+
     }
 
-    function allPost(){
-        return response()->json(Post::with('likes')->withCount(['likes', 'comments'])->get());
+    function allPost()
+    {
+        return response()->json(Post::with(['likes', 'user'])->withCount(['likes', 'comments'])->get());
     }
 }
