@@ -27,10 +27,10 @@ class PostController extends Controller
             ->withCount('comments')
             ->get();
 
-        foreach ($posts as $post){
-            $last = CalculateTime::transfer($post->created_at->toDateTimeString());
-            $posts['last'] = $last;
-        }
+//        foreach ($posts as $post){
+//            $last = CalculateTime::transfer($post->created_at->toDateTimeString());
+//            $posts['last'] = $last;
+//        }
 
         return response()->json($posts);
 //        return View('board')->with('posts', $posts)->with('posts_number', $posts_number);

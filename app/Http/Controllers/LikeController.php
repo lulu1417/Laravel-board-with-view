@@ -123,6 +123,7 @@ class LikeController extends Controller
         ]);
             $like = Like::find($request->like_id);
             $delete = $like->delete();
+            $result['status'] = $delete;
             return response()->json($delete, 200);
 
 //        Like::find($request->like_id)->delete();
