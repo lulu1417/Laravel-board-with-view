@@ -28,8 +28,8 @@ Route::middleware('auth:api')->post('storeLike', 'LikeController@store')->name('
 Route::middleware('auth:api')->post('dislike', 'LikeController@destroy')->name('dislike');
 
 Route::get('allPost', 'PostController@allPost')->name('allPost');
-Route::get('allComment', 'CommentController@allComment')->name('allComment');
-Route::get('allLike', 'LikeController@allLike')->name('allLike');
-Route::get('allReply', 'ReplyController@allReply')->name('allReply');
+Route::post('allComment', 'CommentController@allComment')->name('allComment');
+Route::post('allLike', 'LikeController@allLike')->name('allLike');
+Route::post('allReply', 'ReplyController@allReply')->name('allReply');
 
 Route::post('time', 'PostController@transfer');

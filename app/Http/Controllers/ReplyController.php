@@ -118,7 +118,7 @@ class ReplyController extends Controller
         //
     }
 
-    function allReply(){
-        return response()->json(Reply::with('user')->get());
+    function allReply(Request $request){
+        return response()->json(Reply::with('user')->where('comment_id', $request->comment_id)->get());
     }
 }

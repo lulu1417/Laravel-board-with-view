@@ -105,7 +105,7 @@ class CommentController extends Controller
         //
     }
 
-    function allComment(){
-        return response()->json(Comment::with('user')->get());
+    function allComment(Request $request){
+        return response()->json(Comment::with('user')->where('post_id', $request->post_id)->get());
     }
 }
