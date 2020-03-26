@@ -124,7 +124,7 @@ class LikeController extends Controller
             $like = Like::find($request->like_id);
             $delete = $like->delete();
             $result['status'] = $delete;
-            return response()->json($delete, 200);
+            return response()->json($result, 200);
 
 //        Like::find($request->like_id)->delete();
 //        return redirect(env('DOMAIN') . 'showLikes/' . $request->post_id);
