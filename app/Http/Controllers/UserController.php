@@ -46,7 +46,7 @@ class UserController extends Controller
 
         ]);
         Log::info(response()->json($user, 200));
-        return response()->json($user, 200);
+        return response()->json($user->makeVisible(['api_token', 'created_at']), 200);
 
 
         $rules = [
@@ -84,7 +84,10 @@ class UserController extends Controller
 //            $status = 'failed';
 //            return View::make('signin')->with('status', $status);
         }
-        return response()->json($user, 200);
+        $user->update([
+           'api_token' => Str::random(20),
+        ]);
+        return response()->json($user->makeVisible(['api_token', 'created_at']), 200);
 //        Session::put('user_id', $user->id);
 //        return redirect(route('board'));
 

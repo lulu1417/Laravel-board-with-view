@@ -25,12 +25,13 @@ class PostController extends Controller
             }, 'likes'])
             ->withCount('likes')
             ->withCount('comments')
+            ->orderBy('created_at', 'desc')
             ->get();
 
-//        foreach ($posts as $post){
-//            $last = CalculateTime::transfer($post->created_at->toDateTimeString());
-//            $posts['last'] = $last;
-//        }
+        foreach ($posts as $post){
+            $last = CalculateTime::transfer($post->created_at->toDateTimeString());
+            $post['last'] = $last;
+        }
 
         return response()->json($posts);
 //        return View('board')->with('posts', $posts)->with('posts_number', $posts_number);
