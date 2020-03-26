@@ -119,6 +119,9 @@ class ReplyController extends Controller
     }
 
     function allReply(Request $request){
+        $request->validate([
+            'comment_id' => ['required', 'exists:comments,id']
+        ]);
         return response()->json(Reply::with('user')->where('comment_id', $request->comment_id)->get());
     }
 }

@@ -130,6 +130,9 @@ class LikeController extends Controller
 //        return redirect(env('DOMAIN') . 'showLikes/' . $request->post_id);
     }
     function allLike(Request $request){
+        $request->validate([
+           'post_id' => ['required', 'exists:posts,id']
+        ]);
         return response()->json(Like::with('user')->where('post_id', $request->post_id)->get());
     }
 }
