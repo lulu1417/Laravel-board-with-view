@@ -27,16 +27,16 @@ class UserController extends Controller
         date_default_timezone_set('Asia/Taipei');
 
 
-        $rules = [
+        $request->validate([
             'name' => ['required','unique:users'],
             'password' => ['required', 'between:4,20'],
-        ];
-        $validator = validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            $status = 'invalid_input';
-            return response()->json($status, 400);
-        }
+        ]);
+//        $validator = validator::make($request->all(), $rules);
+//
+//        if ($validator->fails()) {
+//            $status = 'invalid_input';
+//            return response()->json($status, 400);
+//        }
 
 
         $user = User::create([
