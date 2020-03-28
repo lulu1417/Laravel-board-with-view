@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
-use Carbon\Carbon;
+use App\CalculateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -109,8 +109,13 @@ class CommentController extends Controller
         $request->validate([
             'post_id' => ['required', 'exists:posts,id']
         ]);
-        return response()->json(Comment::with(['user', 'replies' => function($query){
+        $comments = Comment::with(['user', 'replies' => function($query){
             $query->with('user')->orderBy('created_at', 'desc');
-        }])->where('post_id', $request->post_id)->get());
+        }])->where('post_id', $request->post_id)->get();
+        foreach ($comments as $post){
+            $last = CalculateTime::transfer($post->created_at->toDateTimeString());
+            $post['last'] = $last;
+        }
+        return response()->json($comments);
     }
 }
