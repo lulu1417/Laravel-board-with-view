@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\CalculateTime;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,7 +27,8 @@ class Comment extends Model
 
     function replies()
     {
-        return $this->hasMany(Reply::class);
+        return $this->hasMany(Reply::class)->with('user');
+
     }
     protected function serializeDate(DateTimeInterface $date)
     {

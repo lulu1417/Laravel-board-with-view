@@ -109,12 +109,13 @@ class CommentController extends Controller
         $request->validate([
             'post_id' => ['required', 'exists:posts,id']
         ]);
-        $comments = Comment::with(['user', 'replies' => function($query){
-            $query->with('user')->orderBy('created_at', 'desc');
-        }])->where('post_id', $request->post_id)->get();
-        foreach ($comments as $post){
-            $last = CalculateTime::transfer($post->created_at->toDateTimeString());
-            $post['last'] = $last;
+        $comments = Comment::with(['user', 'replies'])->where('post_id', $request->post_id)->get();
+        foreach ($comments as $item){
+            $item['last'] = CalculateTime::transfer($item->created_at->toDateTimeString());
+            foreach ($item->replies as $item){
+                $item['last'] = CalculateTime::transfer($item->created_at->toDateTimeString());
+            }
+
         }
         return response()->json($comments);
     }

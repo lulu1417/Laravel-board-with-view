@@ -30,9 +30,15 @@ class PostController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        foreach ($posts as $post){
-            $last = CalculateTime::transfer($post->created_at->toDateTimeString());
-            $post['last'] = $last;
+        foreach ($posts as $item){
+            $item['last'] = CalculateTime::transfer($item->created_at->toDateTimeString());
+            foreach ($item->comments as $item){
+                $item['last'] = CalculateTime::transfer($item->created_at->toDateTimeString());
+                foreach ($item->replies as $item){
+                    $item['last'] = CalculateTime::transfer($item->created_at->toDateTimeString());
+                }
+            }
+
         }
 
         return response()->json($posts);

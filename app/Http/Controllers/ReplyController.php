@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CalculateTime;
 use App\Comment;
 use App\Reply;
 use Carbon\Carbon;
@@ -122,6 +123,10 @@ class ReplyController extends Controller
         $request->validate([
             'comment_id' => ['required', 'exists:comments,id']
         ]);
-        return response()->json(Reply::with('user')->where('comment_id', $request->comment_id)->get());
+        $replies = Reply::with('user')->where('comment_id', $request->comment_id)->get();
+        foreach ($replies as $item){
+            $item['last'] = CalculateTime::transfer($item->created_at->toDateTimeString());
+        }
+        return response()->json($replies);
     }
 }
