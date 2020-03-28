@@ -21,7 +21,9 @@ class PostController extends Controller
     {
         $posts = Post::with(['user',
             'comments' => function ($query) {
-                $query->with('user', 'replies')->orderBy('created_at', 'desc');
+                $query->with(['user', 'replies' => function ($query){
+                    $query->with('user')->orderBy('created_at', 'desc');
+                }])->orderBy('created_at', 'desc');
             }, 'likes'])
             ->withCount('likes')
             ->withCount('comments')

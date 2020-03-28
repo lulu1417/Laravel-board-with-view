@@ -109,6 +109,8 @@ class CommentController extends Controller
         $request->validate([
             'post_id' => ['required', 'exists:posts,id']
         ]);
-        return response()->json(Comment::with('user')->where('post_id', $request->post_id)->get());
+        return response()->json(Comment::with(['user', 'replies' => function($query){
+            $query->with('user')->orderBy('created_at', 'desc');
+        }])->where('post_id', $request->post_id)->get());
     }
 }
