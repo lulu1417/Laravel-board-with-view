@@ -14,6 +14,11 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+    private  $rules = [
+        'name' => ['required', 'unique:users'],
+        'password' => ['required', 'between:4,20'],
+    ];
+
     function index()
     {
         return view('index');
@@ -22,21 +27,24 @@ class UserController extends Controller
     function store(Request $request)
     {
 
-        Log::info('request body：'.$request->body);
-        Log::info('signup->'.'name：'.$request->name.' password：'.$request->password);
+        Log::info('request body：' . $request->body);
+        Log::info('signup->' . 'name：' . $request->name . ' password：' . $request->password);
         date_default_timezone_set('Asia/Taipei');
 
 
-        $request->validate([
-            'name' => ['required','unique:users'],
-            'password' => ['required', 'between:4,20'],
-        ]);
-//        $validator = validator::make($request->all(), $rules);
-//
-//        if ($validator->fails()) {
-//            $status = 'invalid_input';
-//            return response()->json($status, 400);
-//        }
+//        $request->validate([
+//            'name' => ['required','unique:users'],
+//            'password' => ['required', 'between:4,20'],
+//        ]);
+
+
+
+        $validator = validator::make($request->all(), $this->rules);
+
+        if ($validator->fails()) {
+            $status['message'] = 'The name or password fields are required';
+            return response()->json($status, 400);
+        }
 
 
         $user = User::create([
@@ -49,16 +57,11 @@ class UserController extends Controller
         return response()->json($user->makeVisible(['api_token', 'created_at']), 200);
 
 
-        $rules = [
-            'name' => ['required','unique:users'],
-            'password' => ['required', 'between:4,12'],
-        ];
-        $validator = validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            $status = 'invalid_input';
-            return View::make('index')->with('status', $status);
-        }
+//
+//        if ($validator->fails()) {
+//            $status = 'invalid_input';
+//            return View::make('index')->with('status', $status);
+//        }
 
 //        Session::put('user_id', $user->id);
 //        return redirect(route('board'));
@@ -66,14 +69,21 @@ class UserController extends Controller
 
     function login(Request $request)
     {
-        Log::info('request ：'.$request);
-        Log::info('login-> name：'.$request['name'].' password：'.$request['password']);
+        Log::info('request ：' . $request);
+        Log::info('login-> name：' . $request['name'] . ' password：' . $request['password']);
         date_default_timezone_set('Asia/Taipei');
-        $request->validate([
-                'name' => ['required',],
-                'password' => ['required'],
-            ]
-        );
+//        $request->validate([
+//                'name' => ['required',],
+//                'password' => ['required'],
+//            ]
+//        );
+        $validator = validator::make($request->all(), $this->rules);
+
+        if ($validator->fails()) {
+            $status['message'] = 'The name or password fields are required';
+            return response()->json($status, 400);
+        }
+
         $user = User::where('name', $request->name)->first();
         if (!$user) {
 //            $status = 'failed';
@@ -85,7 +95,7 @@ class UserController extends Controller
 //            return View::make('signin')->with('status', $status);
         }
         $user->update([
-           'api_token' => Str::random(20),
+            'api_token' => Str::random(20),
         ]);
         return response()->json($user->makeVisible(['api_token', 'created_at']), 200);
 //        Session::put('user_id', $user->id);
