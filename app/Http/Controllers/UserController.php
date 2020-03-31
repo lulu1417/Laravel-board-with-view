@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
     private  $rules = [
-        'name' => ['required', 'unique:users'],
+        'name' => ['required'],
         'password' => ['required', 'between:4,20'],
     ];
 
@@ -37,12 +37,15 @@ class UserController extends Controller
 //            'password' => ['required', 'between:4,20'],
 //        ]);
 
+        $rules = [
+        'name' => ['required', 'unique:users'],
+        'password' => ['required', 'between:4,20'],
+    ];
 
-
-        $validator = validator::make($request->all(), $this->rules);
+        $validator = validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            $status['message'] = 'The name or password fields are required';
+            $status['message'] = 'invalid input';
             return response()->json($status, 400);
         }
 
@@ -77,20 +80,28 @@ class UserController extends Controller
 //                'password' => ['required'],
 //            ]
 //        );
-        $validator = validator::make($request->all(), $this->rules);
+
+        $rules = [
+            'name' => ['required'],
+            'password' => ['required'],
+        ];
+
+        $validator = validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            $status['message'] = 'The name or password fields are required';
+            $status['message'] = 'invalid input';
             return response()->json($status, 400);
         }
 
         $user = User::where('name', $request->name)->first();
         if (!$user) {
 //            $status = 'failed';
-            return response()->json('name not found', 400);
+            $status['message'] = 'name not found';
+            return response()->json($status, 400);
 //            return View::make('signin')->with('status', $status);
         } elseif ($user->password !== hash('sha256', $request['password'])) {
-            return response()->json('wrong password', 400);
+            $status['message'] = 'wrong password';
+            return response()->json($status, 400);
 //            $status = 'failed';
 //            return View::make('signin')->with('status', $status);
         }
