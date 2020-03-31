@@ -60,12 +60,6 @@ class UserController extends Controller
         return response()->json($user->makeVisible(['api_token', 'created_at']), 200);
 
 
-//
-//        if ($validator->fails()) {
-//            $status = 'invalid_input';
-//            return View::make('index')->with('status', $status);
-//        }
-
 //        Session::put('user_id', $user->id);
 //        return redirect(route('board'));
     }
