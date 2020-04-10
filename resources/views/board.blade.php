@@ -20,13 +20,13 @@
                 @csrf
                 <input type="hidden" name="post_id" value='{{$post->id}}'>
                 <input type="submit" name="submit" value="Like 👍">
-            </form>
+            </form>   <a href={{env('APP_URL')}}showLikes/{{$post->id}}>See who likes this post</a>
 
             @if($post->comments->count() > 0)
                 <hr>
                 <div class="sub-content">
                     <div style="border-width:1px;border-style:double;border-color:#CCDDFF;padding:50px;">
-                        <h3><font color=#5599FF> Replies</font></h3>
+                        <h3><font color=#5599FF> Comments</font></h3>
                         <hr>
                         @foreach($post->comments as $comment)
                             Author：{{$comment->user->name}}
@@ -34,11 +34,11 @@
                             <br>Time：{{$comment->created_at}}
                             <hr>
                         @endforeach
-                        <br><a href={{env('DOMAIN')}}showComments/{{$post->id}}>All comments</a>
+                        <br><a href={{env('APP_URL')}}showComments/{{$post->id}}>All comments</a>
                     </div>
                 </div>
             @endif
-            <h3><font color=#5599FF>Reply This Comment</font></h3>
+            <h3><font color=#5599FF>Reply This Post</font></h3>
             <form name="form1" action="storeComment" method="post">
                 @csrf
                 <input type="hidden" name="post_id" value='{{$post->id}}'>

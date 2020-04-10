@@ -41,37 +41,21 @@ class ReplyController extends Controller
     public function store(Request $request)
     {
 
-        date_default_timezone_set('Asia/Taipei');
-
+        $user_id = Session::get('user_id');
         $request->validate([
             'comment_id' => ['required', 'exists:comments,id'],
             'content' => ['required', 'max:255'],
         ]);
-
-        $create = Reply::create([
-            'user_id' => Auth::user()->id,
-            'comment_id' => $request['comment_id'],
-            'content' => $request['content'],
-            'created_at' => Carbon::now(),
-        ]);
-
-        return response()->json($create, 200);
-
-//        $user_id = Session::get('user_id');
-//        $request->validate([
-//            'comment_id' => ['required', 'exists:comments,id'],
-//            'content' => ['required', 'max:255'],
-//        ]);
-//        if ($user_id != null) {
-//            Reply::create([
-//                'user_id' => $user_id,
-//                'comment_id' => $request['comment_id'],
-//                'content' => $request['content'],
-//            ]);
-//        } else {
-//            return redirect(env('DOMAIN') . 'showComments/' . Comment::find($request->comment_id)->post_id);
-//        }
-//        return redirect(env('DOMAIN') . 'showReplies/' . $request->comment_id);
+        if ($user_id != null) {
+            Reply::create([
+                'user_id' => $user_id,
+                'comment_id' => $request['comment_id'],
+                'content' => $request['content'],
+            ]);
+        } else {
+            return redirect(env('DOMAIN') . 'showComments/' . Comment::find($request->comment_id)->id);
+        }
+        return redirect(env('DOMAIN') . 'showReplies/' . $request->comment_id);
     }
 
     /**

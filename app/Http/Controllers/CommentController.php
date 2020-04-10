@@ -33,30 +33,19 @@ class CommentController extends Controller
     {
         date_default_timezone_set('Asia/Taipei');
 
-        $request->validate([
-            'post_id' => ['required', 'exists:posts,id'],
-            'content' => ['required', 'max:255'],
-        ]);
 
-        $create = Comment::create([
-            'user_id' => Auth::user()->id,
-            'post_id' => $request['post_id'],
-            'content' => $request['content'],
-        ]);
+        $user_id = Session::get('user_id');
+        if ($user_id != null) {
+            Comment::create([
+                'user_id' => $user_id,
+                'post_id' => $request['post_id'],
+                'content' => $request['content'],
+            ]);
+            return redirect(env('DOMAIN') . 'showComments/' . $request->post_id);
 
-        return response()->json($create, 200);
-        //        $user_id = Session::get('user_id');
-//        if ($user_id != null) {
-//            Comment::create([
-//                'user_id' => $user_id,
-//                'post_id' => $request['post_id'],
-//                'content' => $request['content'],
-//            ]);
-//            return redirect(env('DOMAIN') . 'showComments/' . $request->post_id);
-//
-//        } else {
-//            return redirect(route('board'));
-//        }
+        } else {
+            return redirect(route('board'));
+        }
 
     }
 

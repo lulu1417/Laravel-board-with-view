@@ -43,37 +43,18 @@ class LikeController extends Controller
      */
     public function store(Request $request)
     {
-        date_default_timezone_set('Asia/Taipei');
-
+        $user_id = Session::get('user_id', 'null');
         $request->validate([
             'post_id' => ['required', 'exists:posts,id'],
         ]);
 
-        if(Like::where('user_id', Auth::user()->id)->where('post_id', $request['post_id'])->get()->count() > 0){
-            return response()->json('already_liked');
-//            $like = Like::all();
-//            return response()->json($like, 200);
+        if (Like::where('user_id', $user_id)->where('post_id', $request->post_id)->count() == 0 && $user_id != 'null') {
+            Like::create([
+                'user_id' => $user_id,
+                'post_id' => $request['post_id'],
+            ]);
         }
-        $create = Like::create([
-            'user_id' => Auth::user()->id,
-            'post_id' => $request['post_id'],
-            'created_at' => Carbon::now(),
-        ]);
-
-        return response()->json($create, 200);
-
-//        $user_id = Session::get('user_id', 'null');
-//        $request->validate([
-//            'post_id' => ['required', 'exists:posts,id'],
-//        ]);
-//
-//        if (Like::where('user_id', $user_id)->where('post_id', $request->post_id)->count() == 0 && $user_id != 'null') {
-//            Like::create([
-//                'user_id' => $user_id,
-//                'post_id' => $request['post_id'],
-//            ]);
-//        }
-//        return redirect(env('DOMAIN') . 'showLikes/' . $request->post_id);
+        return redirect(env('DOMAIN') . 'board');
     }
 
     /**
@@ -118,16 +99,8 @@ class LikeController extends Controller
      */
     public function destroy(Request $request)
     {
-        $request->validate([
-           'like_id' => ['required', 'exists:likes,id']
-        ]);
-            $like = Like::find($request->like_id);
-            $delete = $like->delete();
-            $result['status'] = $delete;
-            return response()->json($result, 200);
-
-//        Like::find($request->like_id)->delete();
-//        return redirect(env('DOMAIN') . 'showLikes/' . $request->post_id);
+        Like::find($request->like_id)->delete();
+        return redirect(env('DOMAIN') . 'showLikes/' . $request->post_id);
     }
     function allLike(Request $request){
         $request->validate([

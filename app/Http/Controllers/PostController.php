@@ -30,6 +30,7 @@ class PostController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+        $posts_number = Post::all()->count();
         foreach ($posts as $item){
             $item['last'] = CalculateTime::transfer($item->created_at->toDateTimeString());
             foreach ($item->comments as $item){
@@ -41,36 +42,28 @@ class PostController extends Controller
 
         }
 
-        return response()->json($posts);
-//        return View('board')->with('posts', $posts)->with('posts_number', $posts_number);
+        return View('board')->with('posts', $posts)->with('posts_number', $posts_number);
     }
 
     function store(Request $request)
     {
-        date_default_timezone_set('Asia/Taipei');
 
-//        $user_id = Session::get('user_id', 'null');
-//        $rules = [
-//            'subject' => ['required', 'max:255'],
-//            'content' => ['required', 'max:255'],
-//        ];
-//        $validator = validator::make($request->all(), $rules);
-//
-//        if ($validator->fails()) {
-//            return view('addPost',['status' => 'invalid_input']);
-//        }
-//
-        $request->validate([
-            'content' => ['required', 'max:225'],
-        ]);
-        $create = Post::create([
-            'user_id' => Auth::user()->id,
+        $user_id = Session::get('user_id', 'null');
+        $rules = [
+            'subject' => ['required', 'max:255'],
+            'content' => ['required', 'max:255'],
+        ];
+        $validator = validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return view('addPost',['status' => 'invalid_input']);
+        }
+        Post::create([
+            'user_id' => $user_id,
             'content' => $request['content'],
         ]);
 
-        return response()->json($create, 200);
-
-//        return redirect(route('board'));
+        return redirect(route('board'));
     }
 
     function create()
